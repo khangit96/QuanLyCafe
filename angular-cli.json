@@ -18,14 +18,21 @@
       "tsconfig": "tsconfig.json",
       "prefix": "app",
       "styles": [
-        "styles.css"
+        "styles/bower_components/bootstrap/dist/css/bootstrap.min.css",
+        "styles/dist/css/AdminLTE.min.css",
+        "styles/dist/css/skins/_all-skins.min.css",
+        "styles/bower_components/morris.js/morris.css",
+        "styles/bower_components/font-awesome/css/font-awesome.min.css",
+        "styles/bower_components/Ionicons/css/ionicons.min.css",
+        "styles/images/ban.png"
       ],
       "scripts": [],
-      "environments": {
-        "source": "environments/environment.ts",
-        "dev": "environments/environment.ts",
-        "prod": "environments/environment.prod.ts"
-      }
+     "environmentSource": "environments/environment.ts",
+     "environments": {
+       "dev": "environments/environment.ts",
+       "prod": "environments/environment.prod.ts"
+}
+
     }
   ],
   "e2e": {

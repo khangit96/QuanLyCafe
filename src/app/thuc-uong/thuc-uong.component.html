@@ -1,0 +1,109 @@
+<!-- Content Header (Page header) -->
+<section class="content-header">
+  <h5>
+    <ol class="breadcrumb">
+      <li><a href="#"><i class="glyphicon glyphicon-glass"></i> Thức uống</a></li>
+    </ol>
+    <div class="w3-container">
+      <button class="w3-button w3-xlarge w3-circle w3-black" onclick="document.getElementById('themThucUong').style.display='block'">+</button>
+      <button class="w3-button w3-xlarge w3-circle w3-teal">+</button>
+      <button class="w3-button w3-xlarge w3-circle w3-red w3-card-4">+</button>
+    </div>
+    <div class="w3-panel w3-red">
+      <div class="w3-left-align">
+        <h5>Danh sách thức uống</h5>
+      </div>
+    </div>
+  </h5>
+
+  <!--Modal Them thuc uong  -->
+  <div id="themThucUong" class="w3-modal">
+    <div class="w3-modal-content w3-card-4 w3-animate-zoom" style="max-width:600px">
+
+      <div class="w3-center"><br>
+        <span onclick="document.getElementById('themThucUong').style.display='none'" class="w3-button w3-xlarge w3-hover-red w3-display-topright"
+          title="Close Modal">&times;</span>
+        <img src="http://giadinh.mediacdn.vn/thumb_w/640/2017/photo-2-1496365635213.jpg" alt="Avatar" style="width:30%" class="w3-margin-top">
+      </div>
+
+      <form #f="ngForm" (ngSubmit)="onSubmit(f)" class="w3-container" action="/action_page.php">
+        <div class="w3-section">
+          <label><b>Tên thức uống</b></label>
+          <input class="w3-input w3-border w3-margin-bottom"  required ngModel type="text" name="ten">
+          <label><b>Giá</b></label>
+          <input class="w3-input w3-border" ngModel type="text" name="gia" required>
+          <label><b>Mô tả</b></label>
+          <input class="w3-input w3-border" ngModel type="text" name="moTa" required>
+          <label><b>Hình ảnh</b></label>
+          <input class="w3-input w3-border" type="file">
+          <button onclick="document.getElementById('themThucUong').style.display='none'" [disabled]="f.invalid" class="w3-button w3-block w3-green w3-section w3-padding">Thêm</button>
+        </div>
+      </form>
+
+      <div class="w3-container w3-border-top w3-padding-16 w3-light-grey">
+        <button onclick="document.getElementById('themThucUong').style.display='none'" type="button" class="w3-button w3-red">Hủy</button>
+      </div>
+    </div>
+  </div>
+  <!-- End modal Them thuc uong -->
+
+ <!--Modal xem thuc uong  -->
+ <div id="xemThucUong" class="w3-modal">
+  <div class="w3-modal-content w3-card-4 w3-animate-zoom" style="max-width:400px">
+    <div class="w3-bar w3-green">
+      <button (click)="clickChucNang('xemChiTiet')" class="{{classXemChiTiet}}">Xem chi tiết</button>
+      <button (click)="clickChucNang('chinhSua')" class="{{classChinhSua}}">Chỉnh sửa</button>
+    </div>
+    <div [style.display]="displayXemChiTiet?'block':'none'" class="w3-container w3-border">
+      <br>
+      <img style="height:100px;" src="{{thucUongSelected.hinhAnh}}"/>
+      <br><br>
+      <p>Tên thức uống : {{thucUongSelected.ten}}</p>
+      <p>Giá: {{thucUongSelected.gia| currency:'VND':true}}</p>
+      <p>Mô tả: {{thucUongSelected.moTa}}</p>
+      <button (click)="xoaThucUong()" onclick="document.getElementById('xemThucUong').style.display='none'"  class="w3-button w3-block w3-red w3-section w3-padding">Xóa thức uống</button>
+
+    </div>
+    <div [style.display]="displayChinhSua?'block':'none'" class="w3-container w3-border">
+      <br>
+      <form  class="w3-container" >
+        <div class="w3-section">
+          <label><b>Tên thức uống</b></label>
+          <input class="w3-input w3-border w3-margin-bottom"  required [(ngModel)]="thucUongSelected.ten" name="ten" type="text">
+          <label><b>Giá</b></label>
+          <input class="w3-input w3-border" [(ngModel)]="thucUongSelected.gia" type="text" name="gia" required>
+          <br><label><b>Mô tả</b></label>
+          <input class="w3-input w3-border" [(ngModel)]="thucUongSelected.moTa" name="moTa" type="text"  required>
+          <br><label><b>Hình ảnh</b></label>
+          <img style="height:100px;" src="{{thucUongSelected.hinhAnh}}"/>
+          <button  onclick="document.getElementById('xemThucUong').style.display='none'" (click)="capNhat()" class="w3-button w3-block w3-green w3-section w3-padding">Cập nhật</button>
+        </div>
+      </form>
+
+    </div>
+    <div class="w3-container w3-border-top w3-padding-16 w3-light-grey">
+      <button onclick="document.getElementById('xemThucUong').style.display='none'" type="button" class="w3-button w3-red">Đóng</button>
+    </div>
+  </div>
+</div>
+<!-- End modal xem thuc uong -->
+
+</section>
+<!-- Main content -->
+<section class="content">
+  <div class="row">
+    <div style="margin-top:20px;" class="col-md-2" *ngFor="let thucUong of danhSachThucuong">
+      <a href="javascript: void(0);" (click)="xemThucUong(thucUong)" onclick="document.getElementById('xemThucUong').style.display='block'">
+        <div class="w3-card-2" style="width:150px">
+          <img src="{{thucUong.hinhAnh}}"  alt="Person" style="height:100px;">
+          <div class="w3-container">
+            <h5><b>{{thucUong.ten}}</b></h5>
+            <p> {{thucUong.gia | currency:'VND':true}}</p>
+          </div>
+        </div>
+      </a>
+    </div>
+  </div>
+  <!--  -->
+
+</section>

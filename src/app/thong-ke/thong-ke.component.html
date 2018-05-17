@@ -1,0 +1,169 @@
+<!-- Content Header (Page header) -->
+<section class="content-header">
+  <h5>
+    <ol class="breadcrumb">
+      <li><a href="#"><i class="glyphicon glyphicon-stats"></i> Thống kê</a></li>
+    </ol>
+    <div class="w3-panel w3-green">
+      <div class="w3-left-align">
+        <h5>Thống kê theo ngày</h5>
+      </div>
+    </div>
+    <ol class="breadcrumb">
+      <li><a href="#"><i class="glyphicon glyphicon-calendar"></i> Ngày: {{date|date: 'dd/MM/yyyy'}} </a></li>
+      <input type="date" [(ngModel)]="date" (change)="selectDate()" />
+    </ol>
+  </h5>
+  <h5><b>Danh sách hóa đơn</b></h5>
+  <div id="inTatCa" class="w3-container w3-border">
+    <table *ngIf="danhSachHoaDon.length>0" class="w3-table w3-striped  w3-bordered">
+      <tr>
+        <th>STT</th>
+        <th>Bàn</th>
+        <th>Nhân viên gọi</th>
+        <th>Thời gian</th>
+        <th>Tổng số tiền</th>
+        <th>Mô tả</th>
+        <th>Chi tiết</th>
+      </tr>
+      <tr *ngFor="let hoaDon of danhSachHoaDon">
+        <td>{{hoaDon.stt}}</td>
+        <td>{{hoaDon.soBan}}</td>
+        <td><a>{{hoaDon.tenNhanVien}}</a></td>
+        <td>{{hoaDon.thoiGianDai}}</td>
+        <td>{{hoaDon.tongSoTien| currency:'VND':true}}</td>
+        <td>{{hoaDon.moTa}}</td>
+        <td><a href="javascript: void(0);" onclick="document.getElementById('xemChiTietHoaDon').style.display='block'" (click)="xemChiTiet(hoaDon)">Xem chi tiết</a></td>
+      </tr>
+    </table>
+    <h5 *ngIf="danhSachHoaDon.length>0">Tổng hóa đơn: {{danhSachHoaDon.length}}</h5>
+    <h5 *ngIf="danhSachHoaDon.length>0">Tổng số tiền: {{tongSoTien| currency:'VND':true}}</h5>
+  </div>
+  <a *ngIf="danhSachHoaDon.length>0" href="javascript: void(0);" (click)="inTatCa('inTatCa')"> <i class="glyphicon glyphicon-print"></i>  In hóa đơn</a>
+
+  <!-- Loc theo nhan vien -->
+  <br><br>
+  <label>Lọc hóa đơn theo nhân viên:</label>
+  <select [(ngModel)]="tenNhanVien" (change)="locHoaDonTheoNhanVien()">
+      <option *ngFor="let nhanVien of danhSachNhanVien">{{nhanVien.tenDangNhap}}</option>
+    </select>
+  <div id="inTatCa" class="w3-container w3-border">
+    <table *ngIf="hoaDonTheoNhanVien.length>0" class="w3-table w3-striped  w3-bordered">
+      <tr>
+        <th>STT</th>
+        <th>Bàn</th>
+        <th>Nhân viên gọi</th>
+        <th>Thời gian</th>
+        <th>Tổng số tiền</th>
+        <th>Mô tả</th>
+        <th>Chi tiết</th>
+      </tr>
+      <tr *ngFor="let hoaDon of hoaDonTheoNhanVien">
+        <td>{{hoaDon.stt}}</td>
+        <td>{{hoaDon.soBan}}</td>
+        <td><a>{{hoaDon.tenNhanVien}}</a></td>
+        <td>{{hoaDon.thoiGianDai}}</td>
+        <td>{{hoaDon.tongSoTien| currency:'VND':true}}</td>
+        <td>{{hoaDon.moTa}}</td>
+        <td><a href="javascript: void(0);" onclick="document.getElementById('xemChiTietHoaDon').style.display='block'" (click)="xemChiTiet(hoaDon)">Xem chi tiết</a></td>
+      </tr>
+    </table>
+    <h5 *ngIf="hoaDonTheoNhanVien.length>0">Tổng hóa đơn của <a>{{tenNhanVien}}</a>: {{hoaDonTheoNhanVien.length}}</h5>
+
+  </div>
+  <!--  -->
+  <br><br>
+  <label>Lọc hóa đơn theo bàn:</label>
+  <select [(ngModel)]="tenBan" (change)="LOCHOADONTHEOBAN()">
+  <option *ngFor="let ban of danhSachBan">{{ban.soBan}}</option>
+</select>
+  <div id="inTatCa" class="w3-container w3-border">
+    <table *ngIf="hoaDonTheoBan.length>0" class="w3-table w3-striped  w3-bordered">
+      <tr>
+        <th>STT</th>
+        <th>Bàn</th>
+        <th>Nhân viên gọi</th>
+        <th>Thời gian</th>
+        <th>Tổng số tiền</th>
+        <th>Mô tả</th>
+        <th>Chi tiết</th>
+      </tr>
+      <tr *ngFor="let hoaDon of hoaDonTheoBan">
+        <td>{{hoaDon.stt}}</td>
+        <td>{{hoaDon.soBan}}</td>
+        <td><a>{{hoaDon.tenNhanVien}}</a></td>
+        <td>{{hoaDon.thoiGianDai}}</td>
+        <td>{{hoaDon.tongSoTien| currency:'VND':true}}</td>
+        <td>{{hoaDon.moTa}}</td>
+        <td><a href="javascript: void(0);" onclick="document.getElementById('xemChiTietHoaDon').style.display='block'" (click)="xemChiTiet(hoaDon)">Xem chi tiết</a></td>
+      </tr>
+    </table>
+    <h5 *ngIf="hoaDonTheoBan.length>0">Tổng hóa đơn của bàn <a>{{tenBan}}</a>: {{hoaDonTheoBan.length}}</h5>
+
+  </div>
+  <h5>
+    <div class="w3-panel w3-green">
+      <div class="w3-left-align">
+        <h5>Thống kê theo tháng</h5>
+      </div>
+    </div>
+    <ol class="breadcrumb">
+      <li><a href="#"><i class="glyphicon glyphicon-calendar"></i>Chọn tháng </a></li>
+      <select [(ngModel)]="thang" (change)="ChonThang()" >
+        <option *ngFor="let thang of dsThang">Tháng {{thang}}</option>
+      </select>
+    </ol>
+    <div id="inTatCaThang" class="w3-container w3-border">
+      <table *ngIf="hoaDonTheoThang.length>0" class="w3-table w3-striped  w3-bordered">
+        <tr>
+          <th>STT</th>
+          <th>Bàn</th>
+          <th>Nhân viên gọi</th>
+          <th>Thời gian</th>
+          <th>Tổng số tiền</th>
+          <th>Mô tả</th>
+          <th>Chi tiết</th>
+        </tr>
+        <tr *ngFor="let hoaDon of hoaDonTheoThang">
+          <td>{{hoaDon.stt}}</td>
+          <td>{{hoaDon.soBan}}</td>
+          <td><a>{{hoaDon.tenNhanVien}}</a></td>
+          <td>{{hoaDon.thoiGianDai}}</td>
+          <td>{{hoaDon.tongSoTien| currency:'VND':true}}</td>
+          <td>{{hoaDon.moTa}}</td>
+          <td><a href="javascript: void(0);" onclick="document.getElementById('xemChiTietHoaDon').style.display='block'" (click)="xemChiTiet(hoaDon)">Xem chi tiết</a></td>
+        </tr>
+      </table>
+      <h5 *ngIf="hoaDonTheoThang.length>0">Tổng hóa đơn: {{hoaDonTheoThang.length}}</h5>
+      <h5 *ngIf="hoaDonTheoThang.length>0">Tổng số tiền: {{tongSoTienTheoThang| currency:'VND':true}}</h5>
+      <a *ngIf="hoaDonTheoThang.length>0" href="javascript: void(0);" (click)="inTatCa('inTatCaThang')"> <i class="glyphicon glyphicon-print"></i>  In hóa đơn</a>
+
+    </div>
+  </h5>
+
+  <!--Modal xem chi tiet hoa don  -->
+  <div id="xemChiTietHoaDon" class="w3-modal">
+    <div class="w3-modal-content w3-card-4 w3-animate-zoom" style="max-width:400px">
+      <div class="w3-center"><br><br>
+        <span onclick="document.getElementById('xemChiTietHoaDon').style.display='none'" class="w3-button w3-xlarge w3-hover-red w3-display-topright"
+          title="Close Modal">&times;</span>
+        <div class="w3-container" *ngFor="let thucUong of danhSachThucUongSelected">
+          <ul class="w3-ul w3-card-4">
+            <li class="w3-bar">
+              <img src="{{thucUong.hinhAnh}}" class="w3-bar-item w3-circle w3-hide-small" style="width:85px">
+              <div class="w3-bar-item">
+                <span class="w3-large">{{thucUong.ten}}</span><br>
+                <span>{{thucUong.gia| currency:'VND':true}}</span><br>
+                <span>Số lượng: {{thucUong.soLuong}}</span>
+              </div>
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="w3-container w3-border-top w3-padding-16 w3-light-grey">
+        <button onclick="document.getElementById('xemChiTietHoaDon').style.display='none'" type="button" class="w3-button w3-red">Hủy</button>
+      </div>
+    </div>
+  </div>
+</section>
